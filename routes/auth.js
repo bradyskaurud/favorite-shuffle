@@ -5,7 +5,7 @@ const router = express.Router();
 /* GET home page. */
 router.get('/authorize', function(req, res, next) {
   const authorizeUrl = Spotify.getAuthorizeUrl();
-  res.redirect(authorizeUrl)
+  res.json({authorizeUrl});
 });
 
 router.get('/spotify/callback', async (req, res, next) => {
@@ -19,7 +19,7 @@ router.get('/spotify/callback', async (req, res, next) => {
   Spotify.setAccessToken(accessToken);
   Spotify.setRefreshToken(refreshToken);
 
-  res.render('auth', { token: accessToken });
+  res.json({ token: accessToken });
 });
 
 module.exports = router;
