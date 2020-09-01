@@ -4,9 +4,30 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
+const db = require('./models/index.js');
+
 const indexRouter = require('./routes/index');
 const authRoutes = require('./routes/auth');
 const spotifyRoutes = require('./routes/spotify');
+
+async function initializeDbConnection() {
+  try {
+    return await db.sequelize.authenticate()
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+async function syncDb() {
+  try {
+    return db.sequelize.sync();
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+initializeDbConnection();
+syncDb();
 
 var app = express();
 
