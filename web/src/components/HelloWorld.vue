@@ -18,7 +18,6 @@ export default {
         .then((result) => {
           const { authorizeUrl } = result.data || {};
           window.open(authorizeUrl, 'DescriptiveWindowName');
-          window.localStorage.setItem('my_token', authorizeUrl);
         })
         .catch((error) => {
           console.log(error);
