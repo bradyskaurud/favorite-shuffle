@@ -1,9 +1,10 @@
 const SpotifyWebApi = require('spotify-web-api-node');
+const Config = require('../config/index.js');
 
 const Spotify = new SpotifyWebApi({
-    clientId: 'c5b442b790954cd3ac576de0d5c6effe',
-    clientSecret: 'f3ab048b90604abe8a6b6eecf2e34ae9',
-    redirectUri: 'http://bskaurud.local.coschedule.ngrok.io/spotify/callback',
+    clientId: Config.spotifyClientId,
+    clientSecret: Config.spotifyClientSecret,
+    redirectUri: Config.stagingRedirectUri,
 });
 
 const scopes = ['playlist-read-private', 'playlist-modify-public', 'user-read-playback-state', 'user-read-private', 'user-read-email'];
