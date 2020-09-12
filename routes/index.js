@@ -1,12 +1,17 @@
 const express = require('express');
-const Spotify = require('../components/spotify');
-const db = require('../models/index.js');
+const bodyParser = require('body-parser');
 const router = express.Router();
 
-/* GET home page. */
-router.get('/', async function(req, res, next) {
-  const users = await db.User.findAll();
-  res.json(users);
-});
+router.use(bodyParser.urlencoded({ extended: false }));
+router.use(bodyParser.json());
+
+const routes = [
+  require('./auth.js'),
+  require('./oauth_connections.js'),
+  require('./spotify.js'),
+  require('./users'),
+];
+
+routes.forEach((route) => route(router));
 
 module.exports = router;

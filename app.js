@@ -4,30 +4,10 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
+const Config = require('./config/index.js');
 const db = require('./models/index.js');
 
-const indexRouter = require('./routes/index');
-const authRoutes = require('./routes/auth');
-const spotifyRoutes = require('./routes/spotify');
-
-async function initializeDbConnection() {
-  try {
-    return await db.sequelize.authenticate()
-  } catch (error) {
-    console.log(error);
-  }
-}
-
-async function syncDb() {
-  try {
-    return db.sequelize.sync();
-  } catch (error) {
-    console.log(error);
-  }
-}
-
-initializeDbConnection();
-syncDb();
+Config.configureDb(db);
 
 var app = express();
 
@@ -45,19 +25,13 @@ app.all('/*', function(req, res, next) {
   }
 });
 
-// view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'jade');
-
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', indexRouter);
-app.use('/', authRoutes);
-app.use('/', spotifyRoutes);
+app.use('/', require('./routes/index.js'));
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
