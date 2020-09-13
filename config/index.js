@@ -7,6 +7,7 @@ const Config = {
         initializeDbConnection(db);
         syncDb(db);
     },
+    jwtSecret: process.env.JWT_SECRET,
 };
 
 async function initializeDbConnection(db) {
